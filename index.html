@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=devide-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="styles.css" />
+        <title>Technical Documentation</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&family=Poppins&display=swap" rel="stylesheet" />
+    </head>
+    <body>
+        <nav id="navbar">
+            <header class="nav-header">CONTENTS</header>
+            <p class="nav-text"><a class="nav-link" href="#Introduction">Introduction</a></p>
+            <p class="nav-text"><a class="nav-link" href="#em_Unit">em Unit</a></p>
+            <p class="nav-text"><a class="nav-link" href="#Compounding_Effect">Compounding Effect</a></p>
+            <p class="nav-text"><a class="nav-link" href="#rem_Unit">rem Unit</a></p>
+            <p class="nav-text"><a class="nav-link" href="#em_vs_rem,_Which_is_better_?">em vs rem, Which is better ?</a></p>
+        </nav>
+        <main id="main-doc">
+            <h1>rem vs em Unit in CSS</h1>
+            <!-- Introduction -->
+            <section id="Introduction" class="main-section">
+                <header>Introduction</header>
+                <p>We have many good choices when it comes to units in CSS. In today's world of responsive designs, relative units like the em or rem units give us adaptability and flexibility right out of the box that allows for sizes to be based on the font-size(s) defined higher-up in the markup.</p>
+                <p>You've probably been using em and rem units now for a while already, but you might be wondering about the exact difference between the two and which unit is better suited for your use cases. Let's break it down as briefly as possible.</p>
+                <P class="note">Summary: em units for the font-size property will be relative to the font-size of the parent element. em units on other properties than font-size will be relative to the font-size of the current element. rem units sizes will always be relative to the font-size of the root html element.</p>
+            </section>
+            <!-- What's an em Unit ? -->
+            <section id="em_Unit" class="main-section">
+                <header>em Unit</header>
+                <p>em is borrowed from the <a href="https://en.wikipedia.org/wiki/Em_(typography)" alt="wikipedia typograpy page">typography world</a>, and it's a unit that allows setting the font-size of an element relative to the font-size of its parent.</p>
+                <p>Let's take this simple example:</p>
+                <code class="code">
+    <!-- Code section-->
+    .parent {
+            font-size: 18px;
+        }
+    .child {
+        font-size: 1.5em;
+    }
+                </code>
+                <p>With that example, the child would have a font-size of <strong>27px</strong> (1.5 * 18px = 27px).</p>
+                <p>If the parent element doesn't specify a value for font-size, a value will be looked for higher up in the DOM tree. If no font-size is specified all the way up to the root element (<code class="highlight">&lt;html&gt;</code>), then the browser default of <strong>16px</strong> is used.</p>
+                <div class="divider"></div>
+                <p>Pretty simple and straight-forward right? em units can be used for much more than just setting font-size however, and they can be used pretty much everywhere units are expected (padding, margin, width, height, max-width,…you get the picture!) When em units are used on other properties than font-size, the value is relative to the element's own font-size.</p>
+                <p>Let's add to our example:</p>
+                <code class="code">
+    <!-- Code section-->
+    .parent {
+        font-size: 18px;
+    }
+    .child {
+        font-size: 1.5em;
+        padding: 2em 1em;
+    }
+                </code>
+                <ul>
+                    <li>The padding top and bottom on <code>.child</code> will be <strong>54px</strong>. That's 2 times the font-size of our current element's font size (<strong>2 * 27px</strong>)</li>
+                    <li>The padding left and right on <code>.child</code> will be of <strong>27px</strong>. That's 1 time the font-size of our element.</li>
+                </ul>
+                <p class="note">Remember: when em units are used on font-size, the size is relative to the font-size of the parent. When used on other properties, it's relative to the font-size of the element itself.</p>
+                <div class="divider"></div>
+            </section>
+            <!-- Compounding Effect -->
+            <section id="Compounding_Effect" class="main-section">
+                <header>Compounding Effect</header>
+                <p>So far everything is well and good with using the em unit, but a problem can come about from the fact that the unit can compound from one level to the other.</p>
+                <p>Let's keep a similar basic example:</p>
+                <code class="code">
+    <!-- Code section-->
+    .parent {
+        font-size: 15px;
+    }
+    .child {
+        font-size: 2em;
+    }
+                </code>
+                <p>But let's use it in our markup like this:</p>
+                <code class="code">
+    <!-- Code section-->
+    &lt;div class="parent"&gt;
+        I'm 15px
+        &lt;div class="child"&gt;
+        I'm 30px, as expected
+            &lt;div class="child"&gt;
+            I'm 60px, trouble starts!
+                &lt;div class="child"&gt;
+                I'm 120px, now we're really in trouble!
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+                </code>
+                <div class="parent">
+                    I'm 15px
+                    <div class="child">
+                    I'm 30px, as expected
+                        <div class="child">
+                        I'm 60px, trouble starts!
+                            <div class="child">
+                            I'm 120px, now we're really in trouble!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p>So, as you can see, the effect of em units can be compounding when multiple em-font-sized elements are within one another. This can become a problem and can lead to unintended consequences in your designs.</p>
+                <p>This problem is the reason why the rem unit was created.</p>
+            </section>
+            <!-- rem Unit -->
+            <section id="rem_Unit" class="main-section">
+                <header>rem Unit</header>
+                <p>The rem unit, short for root em is a relative unit that'll always be based upon the font-size value of the root element, which is the <code class="highlight">&lt;html&gt;</code> element. And if the <code class="highlight">&lt;html&gt;</code> element doesn't have a specified font-size, the browser default of <strong>16px</strong> is used.</p>
+                <p>So that means that, by using the rem unit, the values of parent elements are ignored, and only the value of the root is taken into consideration.</p>
+                <p>With a similar example, but in rem:</p>
+                <code class="code">
+    <!-- Code section-->
+    .html {
+        font-size: 16px;
+    }
+    .parent {
+        font-size: 15px;
+    }
+    .child-rem {
+        font-size: 2rem;
+    }
+                </code>
+                <code class="code">
+    <!-- Code section-->
+    &lt;div class="parent"&gt;
+        I'm 15px
+        &lt;div class="child-rem"&gt;
+        I'm 32px, as expected
+            &lt;div class="child-rem"&gt;
+            I'm 32px, yep!
+                &lt;div class="child-rem"&gt;
+                I'm 32px, like clockwork!
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+                </code>
+                <ul>
+                    <div class="parent">
+                        <li>I'm 15px</li>
+                        <div class="child-rem">
+                        <li>I'm 32px, as expected</li>
+                            <div class="child-rem">
+                            <li>I'm 32px, yep!</li>
+                                <div class="child-rem">
+                                <li>I'm 32px, like clockwork!</li>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ul>
+                <div class="divider"></div>
+                <p>As you can see, using rem units allow us to avoid the compounding effect of em units. With rem things are always and consistently based on the font-size or the root element, so there are no surprises.</p>
+                <p>The same goes for other values than font-size (margin, padding,…) Using rem units on those will still be relative to the font-size of the root element.</p>
+            </section>
+            <!-- em vs rem Unit -->
+            <section id="em_vs_rem,_Which_is_better_?" class="main-section">
+                <header>em vs rem, Which is better ?</header>
+                <p class="final">There's no better unit really, and it all depends on your personal preferences. Some people like to design everything in rem units for consistency and predictability, while others like to also use em units in places where the influence of nearby parent elements would make sense.</p>
+            </section>
+        </main>
+    </body>
+</html>
