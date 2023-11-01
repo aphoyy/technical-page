@@ -111,11 +111,21 @@ ul {
     font-size: 2em;
 }
 
+.credits {
+    position: absolute;
+}
+
 @media (hover: hover) {
     .nav-text:hover .nav-link:hover{
         background-color: #4d5b7c;
         color: white;
         padding: 2px;
         border-radius: 5px;
+    }
+}
+
+@media screen and (max-width:1250px) {
+    body {
+        margin-right: 0;
     }
 }
